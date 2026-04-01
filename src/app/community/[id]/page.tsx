@@ -2,15 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-<<<<<<< HEAD
 import { getPosts, savePosts } from "../../../lib/mockData";
 import { Post, Comment } from "../../../types/post";
 import CommentItem from "../../../components/CommentItem";
-=======
-import { getPosts, savePosts } from "@/lib/mockData";
-import { Post, Comment } from "@/types/post";
-import CommentItem from "@/components/CommentItem";
->>>>>>> 7c9f19721b739ad7b79b829663f07c14be1c3ba5
 
 export default function PostDetailPage() {
   const params = useParams();
@@ -21,11 +15,7 @@ export default function PostDetailPage() {
 
   useEffect(() => {
     const posts = getPosts();
-<<<<<<< HEAD
     const foundPost = posts.find((item: Post) => item.id === id) || null;
-=======
-    const foundPost = posts.find((item) => item.id === id) || null;
->>>>>>> 7c9f19721b739ad7b79b829663f07c14be1c3ba5
     setPost(foundPost);
   }, [id]);
 
@@ -33,22 +23,14 @@ export default function PostDetailPage() {
     if (!post) return;
 
     const posts = getPosts();
-<<<<<<< HEAD
     const updatedPosts = posts.map((item: Post) =>
-=======
-    const updatedPosts = posts.map((item) =>
->>>>>>> 7c9f19721b739ad7b79b829663f07c14be1c3ba5
       item.id === post.id ? { ...item, likes: item.likes + 1 } : item
     );
 
     savePosts(updatedPosts);
 
     const updatedPost =
-<<<<<<< HEAD
       updatedPosts.find((item: Post) => item.id === post.id) || null;
-=======
-      updatedPosts.find((item) => item.id === post.id) || null;
->>>>>>> 7c9f19721b739ad7b79b829663f07c14be1c3ba5
     setPost(updatedPost);
   };
 
@@ -63,11 +45,7 @@ export default function PostDetailPage() {
     };
 
     const posts = getPosts();
-<<<<<<< HEAD
     const updatedPosts = posts.map((item: Post) =>
-=======
-    const updatedPosts = posts.map((item) =>
->>>>>>> 7c9f19721b739ad7b79b829663f07c14be1c3ba5
       item.id === post.id
         ? { ...item, comments: [...item.comments, newComment] }
         : item
@@ -76,11 +54,7 @@ export default function PostDetailPage() {
     savePosts(updatedPosts);
 
     const updatedPost =
-<<<<<<< HEAD
       updatedPosts.find((item: Post) => item.id === post.id) || null;
-=======
-      updatedPosts.find((item) => item.id === post.id) || null;
->>>>>>> 7c9f19721b739ad7b79b829663f07c14be1c3ba5
     setPost(updatedPost);
     setCommentText("");
   };
@@ -112,11 +86,7 @@ export default function PostDetailPage() {
 
         <div className="space-y-3">
           {post.comments.length > 0 ? (
-<<<<<<< HEAD
             post.comments.map((comment: Comment) => (
-=======
-            post.comments.map((comment) => (
->>>>>>> 7c9f19721b739ad7b79b829663f07c14be1c3ba5
               <CommentItem key={comment.id} comment={comment} />
             ))
           ) : (
