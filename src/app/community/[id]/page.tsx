@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { fetchPost } from "../../../lib/api";
 import type { PostDetail } from "../../../types/post";
+import { fetchPost, toggleLike } from "../../../lib/api";
 
 interface PageProps {
   params: {
@@ -32,6 +32,17 @@ export default function PostDetailPage({ params }: PageProps) {
     loadPost();
   }, [params.id]);
 
+  const handleLike = async () => {
+  if (!post) return;
+
+  try {
+    const updatedPost = await toggleLike(post.id);
+    setPost(updatedPost);
+  } catch (err) {
+    alert("좋아요 처리에 실패했습니다.");
+  }
+};
+
   if (loading) {
     return <div>로딩 중...</div>;
   }
@@ -53,6 +64,7 @@ export default function PostDetailPage({ params }: PageProps) {
       <p>{post.content}</p>
       <p>작성자: {post.author ?? "익명"}</p>
       <p>좋아요: {post.likeCount}</p>
+      <button onClick={handleLike}>좋아요</button>
 
       <section>
         <h2>댓글</h2>
