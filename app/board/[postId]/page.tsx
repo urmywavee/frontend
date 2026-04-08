@@ -38,6 +38,7 @@ export default function PostDetailPage() {
   } = useBoardStore();
 
   const [commentText, setCommentText] = useState("");
+  const [author, setAuthor] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [submitLoading, setSubmitLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
@@ -143,6 +144,7 @@ export default function PostDetailPage() {
     setError(null);
 
     const trimmed = commentText.trim();
+    const trimmedAuthor = author.trim();
     if (!trimmed) {
       setError("댓글 내용을 입력해주세요.");
       return;
@@ -280,6 +282,14 @@ export default function PostDetailPage() {
             <label className="text-xs font-medium text-zinc-600" htmlFor="comment">
               댓글 작성
             </label>
+
+            <input
+  value={author}
+  onChange={(e) => setAuthor(e.target.value)}
+  placeholder="작성자 이름"
+  className="h-10 rounded-lg border border-black/10 px-3 text-sm focus:border-black/30"
+/>
+
             <textarea
               id="comment"
               value={commentText}

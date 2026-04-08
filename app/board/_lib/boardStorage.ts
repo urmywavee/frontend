@@ -10,6 +10,7 @@ export type BoardComment = {
   id: string;
   postId: string;
   content: string;
+  author: string;
   createdAt: number; // epoch ms
 };
 
