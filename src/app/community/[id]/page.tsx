@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { fetchPost } from "../../../lib/api";
 import type { PostDetail } from "../../../types/post";
 
@@ -31,16 +32,27 @@ export default function PostDetailPage({ params }: PageProps) {
     loadPost();
   }, [params.id]);
 
-  if (loading) return <div>로딩 중...</div>;
-  if (error) return <div>{error}</div>;
-  if (!post) return <div>게시글이 없습니다.</div>;
+  if (loading) {
+    return <div>로딩 중...</div>;
+  }
+
+  if (error || !post) {
+    return (
+      <main>
+        <p>{error || "존재하지 않는 게시글입니다."}</p>
+        <Link href="/community">← 목록으로</Link>
+      </main>
+    );
+  }
 
   return (
     <main>
+      <Link href="/community">← 목록으로</Link>
+
       <h1>{post.title}</h1>
       <p>{post.content}</p>
-      <p>좋아요: {post.likeCount}</p>
       <p>작성자: {post.author ?? "익명"}</p>
+      <p>좋아요: {post.likeCount}</p>
 
       <section>
         <h2>댓글</h2>
