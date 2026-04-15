@@ -18,6 +18,7 @@ type ApiComment = {
   id: string;
   postId: string;
   content: string;
+  author: string;
   createdAt: number;
 };
 
@@ -139,55 +140,59 @@ export default function PostDetailPage() {
     }
   };
 
-  const handleSubmitComment = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setError(null);
+ const handleSubmitComment = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  setError(null);
 
-    const trimmed = commentText.trim();
-    const trimmedAuthor = author.trim();
+  if (!post) return;
 
-    if (!trimmed || !trimmedAuthor) {
-      setError("댓글 내용을 입력해주세요.");
-      return;
+  const trimmed = commentText.trim();
+  const trimmedAuthor = author.trim();
+
+  if (!trimmed || !trimmedAuthor) {
+    setError("작성자와 댓글 내용을 입력해주세요.");
+    return;
+  }
+
+  setSubmitLoading(true);
+
+  try {
+    if (useApiData) {
+      const res = await fetch(`/api/posts/${postId}/comments`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          content: trimmed,
+          author: trimmedAuthor,
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error("댓글 등록 실패");
+      }
+
+      const newComment = await res.json();
+      setApiComments((prev) =>
+        [...prev, newComment].sort((a, b) => a.createdAt - b.createdAt)
+      );
+    } else {
+      addComment(post.id, {
+        content: trimmed,
+        author: trimmedAuthor,
+      });
     }
-
-    addComment(post.id, { content: trimmed, author: trimmedAuthor });
 
     setCommentText("");
     setAuthor("");
-
-    setSubmitLoading(true);
-
-    try {
-      if (useApiData) {
-        const res = await fetch(`/api/posts/${postId}/comments`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ content: trimmed }),
-        });
-
-        if (!res.ok) {
-          throw new Error("댓글 등록 실패");
-        }
-
-        const newComment = await res.json();
-        setApiComments((prev) =>
-          [...prev, newComment].sort((a, b) => a.createdAt - b.createdAt)
-        );
-      } else {
-        addComment(postId, { content: trimmed });
-      }
-
-      setCommentText("");
-    } catch (e) {
-      console.error(e);
-      setError("댓글 등록에 실패했습니다.");
-    } finally {
-      setSubmitLoading(false);
-    }
-  };
+  } catch (e) {
+    console.error(e);
+    setError("댓글 등록에 실패했습니다.");
+  } finally {
+    setSubmitLoading(false);
+  }
+}; 
 
   if (!isReady && !useApiData) {
     return (
