@@ -1,75 +1,41 @@
-import Image from "next/image";
 import Link from "next/link";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+    <main className="relative min-h-screen overflow-hidden bg-gradient-to-br from-zinc-50 via-white to-zinc-100">
+      {/* 은은한 배경 효과 */}
+      <div className="pointer-events-none absolute -top-40 left-1/2 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-zinc-200/30 blur-3xl" />
 
-        <div className="mt-10 flex w-full justify-start">
-          <Link
+      <section className="relative mx-auto flex min-h-screen max-w-4xl flex-col items-center justify-center px-6 text-center">
+        {/* 작은 문구 */}
+        <p className="text-xs tracking-widest text-zinc-400">
+          SIMPLE COMMUNITY
+        </p>
+
+        {/* 메인 타이틀 */}
+        <h1 className="mt-4 text-4xl font-semibold leading-tight text-zinc-900 sm:text-5xl">
+          생각을 기록하고,
+          <br />
+          조용히 나누는 공간
+        </h1>
+
+        {/* 서브 텍스트 */}
+        <p className="mt-6 max-w-xl text-sm leading-6 text-zinc-500 sm:text-base">
+          글을 남기고 댓글을 작성할 수 있는
+          <br />
+          복잡하지 않은 작은 게시판입니다.
+        </p>
+
+        {/* 버튼 */}
+        <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+         <Link
             href="/board"
-            className="rounded-full border border-black/[.08] px-5 py-2 text-sm font-medium text-zinc-950 hover:bg-black/[.04] dark:text-zinc-50 dark:hover:bg-[#1a1a1a]"
-          >
-            게시판으로 가기 →
+            className="inline-flex min-w-[300px] h-14 items-center justify-center rounded-full bg-black px-8 text-lg font-semibold text-white shadow-md transition hover:scale-105 hover:opacity-90"
+            >
+            게시판 들어가기
           </Link>
         </div>
-      </main>
-    </div>
+      </section>
+    </main>
   );
 }
