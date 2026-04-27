@@ -1,14 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { login } from "../../lib/api";
 import { useAuthStore } from "../../stores/useAuthStore";
 
 export default function LoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { setAuth } = useAuthStore();
+
+  const redirect = searchParams.get("redirect") || "/board";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -35,7 +38,7 @@ export default function LoginPage() {
       });
 
       setAuth(data.access_token, data.user);
-      router.push("/community");
+      router.push(redirect);
     } catch (err: any) {
       setError(
         err?.response?.data?.detail?.error ||

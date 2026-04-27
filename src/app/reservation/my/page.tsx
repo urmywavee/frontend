@@ -26,7 +26,7 @@ export default function MyReservationsPage() {
 
   useEffect(() => {
     if (!isLoggedIn) {
-      router.push("/login");
+      router.push(`/login?redirect=${encodeURIComponent(window.location.pathname)}`);
       return;
     }
 
