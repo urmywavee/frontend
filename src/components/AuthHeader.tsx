@@ -19,12 +19,12 @@ export default function AuthHeader() {
         
         {/* 왼쪽: 로고 + 메뉴 */}
         <div className="flex items-center gap-6">
-          <Link href="/community" className="text-lg font-bold text-zinc-900">
+          <Link href="/" className="text-lg font-bold text-zinc-900">
             Study Community
           </Link>
 
           <nav className="flex items-center gap-4 text-sm">
-            <Link href="/community" className="text-zinc-700 hover:text-black">
+            <Link href="/board" className="text-zinc-700 hover:text-black">
               커뮤니티
             </Link>
             <Link href="/reservation" className="text-zinc-700 hover:text-black">
