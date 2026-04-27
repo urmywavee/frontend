@@ -112,12 +112,19 @@ export default function RoomDetailPage() {
       setSelectedEnd(null);
       setPurpose("");
     } catch (err: any) {
-      const message =
-        err.response?.data?.detail?.error || "예약에 실패했습니다.";
-      alert(message);
-    } finally {
-      setSubmitting(false);
-    }
+  console.log("예약 실패 전체 에러:", err);
+  console.log("예약 실패 응답:", err.response?.data);
+
+  const message =
+    err.response?.data?.message ||
+    err.response?.data?.error ||
+    err.response?.data?.detail ||
+    "예약에 실패했습니다.";
+
+  alert(message);
+} finally {
+  setSubmitting(false);
+}
   };
 
   if (!room) return <div>로딩 중...</div>;

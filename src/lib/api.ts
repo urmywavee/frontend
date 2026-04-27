@@ -6,6 +6,7 @@ import type {
   TokenResponse,
   User,
 } from "../types/auth";
+import type { Room, Reservation, ReservationCreate } from "@/types/reservation";
 
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -14,9 +15,6 @@ const api = axios.create({
   },
 });
 
-/* =========================
-   axios 인터셉터 (JWT 자동 첨부)
-========================= */
 api.interceptors.request.use((config) => {
   if (typeof window !== "undefined") {
     const token = localStorage.getItem("access_token");
@@ -29,9 +27,7 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-/* =========================
-   기존 게시글 API
-========================= */
+/* 게시글 API */
 export const fetchPosts = async (): Promise<Post[]> => {
   const res = await api.get("/posts");
   return res.data;
@@ -42,7 +38,6 @@ export const fetchPost = async (id: number): Promise<PostDetail> => {
   return res.data;
 };
 
-/* 🔥 author 제거 */
 export const createPost = async (data: {
   title: string;
   content: string;
@@ -77,9 +72,7 @@ export const deleteComment = async (
   return res.data;
 };
 
-/* =========================
-   인증 API (Step1 핵심)
-========================= */
+/* 인증 API */
 export const register = async (data: RegisterRequest) => {
   const res = await api.post<TokenResponse>("/auth/register", data);
   return res.data;
@@ -95,54 +88,44 @@ export const getMe = async () => {
   return res.data;
 };
 
-export default api;
-
-import { Room, Reservation, ReservationCreate } from "@/types/reservation";
-
-// === 스터디룸 API ===
-
-// 스터디룸 목록 조회
+/* 스터디룸 API */
 export const fetchRooms = async (): Promise<Room[]> => {
-    const res = await api.get<Room[]>("/rooms");
-    return res.data;
+  const res = await api.get<Room[]>("/rooms");
+  return res.data;
 };
 
-// 스터디룸 상세 조회
 export const fetchRoom = async (roomId: string): Promise<Room> => {
-    const res = await api.get<Room>(`/rooms/${roomId}`);
-    return res.data;
+  const res = await api.get<Room>(`/rooms/${roomId}`);
+  return res.data;
 };
 
-// 스터디룸 예약 현황 조회 (특정 날짜)
 export const fetchRoomReservations = async (
-    roomId: string,
-    date: string,
+  roomId: string,
+  date: string
 ): Promise<Reservation[]> => {
-    const res = await api.get<Reservation[]>(
-        `/rooms/${roomId}/reservations?date=${date}`,
-    );
-    return res.data;
+  const res = await api.get<Reservation[]>(
+    `/rooms/${roomId}/reservations?date=${date}`
+  );
+  return res.data;
 };
 
-// === 예약 API ===
-
-// 예약 생성
+/* 예약 API */
 export const createReservation = async (
-    data: ReservationCreate,
+  data: ReservationCreate
 ): Promise<Reservation> => {
-    const res = await api.post<Reservation>("/reservations", data);
-    return res.data;
+  const res = await api.post<Reservation>("/reservations", data);
+  return res.data;
 };
 
-// 내 예약 목록 조회
 export const fetchMyReservations = async (): Promise<Reservation[]> => {
-    const res = await api.get<Reservation[]>("/reservations/me");
-    return res.data;
+  const res = await api.get<Reservation[]>("/reservations/me");
+  return res.data;
 };
 
-// 예약 취소
 export const cancelReservation = async (
-    reservationId: string,
+  reservationId: string
 ): Promise<void> => {
-    await api.delete(`/reservations/${reservationId}`);
+  await api.delete(`/reservations/${reservationId}`);
 };
+
+export default api;
